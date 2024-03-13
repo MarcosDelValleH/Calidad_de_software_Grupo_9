@@ -21,11 +21,9 @@ import java.util.List;
 public class ConsejosManager {
     private ArrayList<String> advices;
     AssetManager assetManager;
-    Context context;
 
     public ConsejosManager(Context context, Activity activity) {
         assetManager = context.getAssets();
-        context = context;
         loadAdvices(activity);
     }
 
@@ -59,6 +57,7 @@ public class ConsejosManager {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
 
             // Escribir la frase en una nueva línea
+            writer.newLine();
             writer.write(advice);
             // Cerrar el BufferedWriter
             writer.close();
