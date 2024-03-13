@@ -35,6 +35,11 @@ public class Fragment_s1 extends Fragment {
     private int dia;
     private Registro r;
     private boolean flag;
+    CalendarManager calendarManager;
+
+    ConsejosManager consejosManager;
+
+    private PreferencesManager preferencesManager;
 
 
     @Override
@@ -48,27 +53,19 @@ public class Fragment_s1 extends Fragment {
         // Obtener referencia al TextView del fragmento
         textViewFragment = view.findViewById(R.id.textViewFragment);
         cont = view.findViewById(R.id.textView);
-
+        preferencesManager = new PreferencesManager(getContext());
+        calendarManager = new CalendarManager();
+        consejosManager = new ConsejosManager(getContext());
         //recuperamos la información de cigarros
-        r = getReg();
+        r = preferencesManager.getReg();
         if(r==null){ //no se ha creado todavia
             r = new Registro();
-            setReg(r);
+            preferencesManager.setReg(r);
             flag=true;
         }
         else{ //actualizamos el registro al dia y la fecha actual
-            Calendar calendar = Calendar.getInstance();
-            int numeroSemana = calendar.get(Calendar.WEEK_OF_YEAR);
-            int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
-            diaSemana--;
-            if(diaSemana==0){
-                diaSemana=7;
-            }
-            if(diaSemana!=r.lastDay || numeroSemana!=r.lastWeek) flag = true;
-            changeCont(diaSemana,numeroSemana);
-            r.SetDay(diaSemana);
-            r.SetWeek(numeroSemana);
-            setReg(r);
+            flag = calendarManager.updateRegistro(r);
+            preferencesManager.setReg(r);
         }
         semana = r.reg.get(r.reg.size()-1);
         dia = r.lastDay;
@@ -84,12 +81,12 @@ public class Fragment_s1 extends Fragment {
 
         // Configurar un OnClickListener para el ImageButton
         imageButton.setOnClickListener(v -> {
-            // Manejar la acción cuando se toca el ImageButton
+            // Manejar añadir cigarros fumados cuando se toca el ImageButton
             semana[dia]++;
             changeText("  Cigarros fumados   \n \n " + semana[dia]+"\n");
             r.setNumDias(0);
             cont.setText("  Dias sin fumar   \n \n"+r.numDias + "\n");
-            setReg(r); // Guardar cambios en las preferencias compartidas
+            preferencesManager.setReg(r); // Guardar cambios en las preferencias compartidas
 
             setMessage(view, r);
         });
@@ -108,25 +105,13 @@ public class Fragment_s1 extends Fragment {
         TextView text = viewgroup.findViewById(R.id.puedes_comprar);
 
         Double balance = Estimaciones.ahorroTotal(registro);
-
+        title.setText("Has ahorrado " + String.format("%.02f", balance) + "€");
+        String balanceString = Estimaciones.getBalance(balance);
+        text.setText(balanceString);
         if (balance >= 0) {
             String strBalance = String.format("%.02f", balance);
-            title.setText("Has ahorrado " + strBalance + "€");
-            if (balance > 5 && balance < 10){
-                text.setText("Con el dinero que te has ahorrado podrías comprarte un menú kebab.");
-            } else if (balance >= 10 && balance < 20) {
-                text.setText("Con el dinero que te has ahorrado podrías ir al cine e invitar a alguien.");
-            } else if (balance >= 20 && balance < 70) {
-                text.setText("Con el dinero que te has ahorrado podrías tener una cena especial.");
-            } else if (balance >= 50 && balance < 100) {
-                text.setText("Con el dinero que te has ahorrado podrías asistir a un festival.");
-            } else if (balance >= 100 && balance < 200) {
-                text.setText("Con el dinero que te has ahorrado podrías irte de escapada de fin de semana.");
-            } else if (balance >= 200 && balance < 500) {
-                text.setText("Con el dinero que te has ahorrado podrías comprarte una nueva consola.");
-            } else if (balance >= 500) {
-                text.setText("¡Guau! Con el dinero que te has ahorrado podrías organizarte un viaje fuera del país.");
-            }
+            title.setText("Has ahorrado " + String.format("%.02f", balance) + "€");
+            text.setText(balanceString);
         } else {
             String strBalance = String.format("%.02f", -balance);
             title.setText("Has gastado " +  strBalance + "€ más de lo normal.\n\nNo te desmotives, conseguirás que ese número sea positivo.");
@@ -134,29 +119,14 @@ public class Fragment_s1 extends Fragment {
         }
     }
 
-    private void changeCont(int diaSemana, int numeroSemana) {
-        if(numeroSemana == r.lastWeek){
-            r.setNumDias(r.numDias+(diaSemana-r.lastDay));
-        }
-        else{
-            int dif = (numeroSemana - r.lastWeek)*7;
-            if (r.lastDay < diaSemana ){
-                dif += (diaSemana - r.lastDay);
-            }
-            else{
-                dif -= (r.lastDay-diaSemana);
-            }
-            r.setNumDias(dif);
-
-        }
-    }
 
     private void CreatePopUp(LayoutInflater inflater, View view) {
         View popUpView = inflater.inflate(R.layout.fragment_pop_up, null);
         TextView textView = popUpView.findViewById(R.id.randomAdvice);
 
         // Leer consejos desde el archivo de texto
-        List<String> consejosList = readAdvicesFromFile("consejos.txt");
+        consejosManager.loadAdvices();
+        List<String> consejosList = consejosManager.getAdvices();
 
         // Obtener un consejo aleatorio
         if (!consejosList.isEmpty()) {
@@ -176,23 +146,6 @@ public class Fragment_s1 extends Fragment {
         button.setOnClickListener(v -> alertDialog.dismiss());
     }
 
-    private List<String> readAdvicesFromFile(String filename) {
-        List<String> consejosList = new ArrayList<>();
-        try {
-            InputStream inputStream = getResources().getAssets().open(filename);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                consejosList.add(line);
-            }
-
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return consejosList;
-    }
 
     // Método público para cambiar el texto del TextView
     public void changeText(String newText) {
@@ -204,27 +157,6 @@ public class Fragment_s1 extends Fragment {
         }
     }
 
-    public Registro getReg(){
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MiSharedPreferences", Context.MODE_PRIVATE);
 
-        String json = sharedPreferences.getString("registro2", null);
-        if (json != null) {
-            Gson gson = new GsonBuilder().create();
-            Registro regDev = gson.fromJson(json, Registro.class);
-            return regDev;
-        }
-        return null;
-    }
-    public void setReg(Registro reg){
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MiSharedPreferences", Context.MODE_PRIVATE);
-
-// Obtiene un editor para modificar SharedPreferences
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(reg);
-        editor.putString("registro2",json);
-        editor.apply(); // Guarda los cambios
-    }
 
 }

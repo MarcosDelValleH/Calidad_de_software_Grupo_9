@@ -23,5 +23,12 @@ public class PreferencesManager extends Fragment {
         }
         return null;
     }
+    public void setReg(Registro reg){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(reg);
+        editor.putString("registro2",json);
+        editor.apply(); // Guarda los cambios
+    }
 
 }

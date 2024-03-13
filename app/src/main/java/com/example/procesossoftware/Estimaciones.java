@@ -49,4 +49,31 @@ public class Estimaciones {
         }
         return ultimosDias;
     }
+    public static String getBalance(Double balance){
+
+        String balanceString;
+        if (balance >= 0) {
+            String strBalance = String.format("%.02f", balance);
+            balanceString = ("Has ahorrado " + strBalance + "€");
+            if (balance > 5 && balance < 10){
+                balanceString = ("Con el dinero que te has ahorrado podrías comprarte un menú kebab.");
+            } else if (balance >= 10 && balance < 20) {
+                balanceString = ("Con el dinero que te has ahorrado podrías ir al cine e invitar a alguien.");
+            } else if (balance >= 20 && balance < 70) {
+                balanceString = ("Con el dinero que te has ahorrado podrías tener una cena especial.");
+            } else if (balance >= 50 && balance < 100) {
+                balanceString = ("Con el dinero que te has ahorrado podrías asistir a un festival.");
+            } else if (balance >= 100 && balance < 200) {
+                balanceString = ("Con el dinero que te has ahorrado podrías irte de escapada de fin de semana.");
+            } else if (balance >= 200 && balance < 500) {
+                balanceString = ("Con el dinero que te has ahorrado podrías comprarte una nueva consola.");
+            } else if (balance >= 500) {
+                balanceString = ("¡Guau! Con el dinero que te has ahorrado podrías organizarte un viaje fuera del país.");
+            }
+        } else {
+            String strBalance = String.format("%.02f", -balance);
+            balanceString = ("Has gastado " +  strBalance + "€ más de lo normal.\n\nNo te desmotives, conseguirás que ese número sea positivo.");
+        }
+        return balanceString;
+    }
 }
