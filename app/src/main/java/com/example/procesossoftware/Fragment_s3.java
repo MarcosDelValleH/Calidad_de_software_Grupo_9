@@ -29,7 +29,7 @@ public class Fragment_s3 extends Fragment {
     private Button buttonChangeAdvice;
     private Button buttonAddAdvice;
     private Set<Integer> shownAdvices = new HashSet<>(); // Conjunto de índices de consejos mostrados
-
+    private ConsejosManager consejosManager;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,11 +40,11 @@ public class Fragment_s3 extends Fragment {
         textViewFragment = view.findViewById(R.id.textViewFragment);
         buttonChangeAdvice = view.findViewById(R.id.buttonC);
         buttonAddAdvice = view.findViewById(R.id.buttonAdd);
-
+        consejosManager = new ConsejosManager(getContext());
 
 
         // Cargar los consejos desde el archivo de texto en assets
-        advices = loadAdvicesFromAsset();
+        advices = (ArrayList<String>) consejosManager.getAdvices();
 
         // Mostrar un consejo al iniciar
         showNextAdvice();
@@ -58,27 +58,7 @@ public class Fragment_s3 extends Fragment {
 
 
     // Método para cargar los consejos desde el archivo de texto en assets
-    private ArrayList<String> loadAdvicesFromAsset() {
-        ArrayList<String> advicesList = new ArrayList<>();
-        AssetManager assetManager = requireContext().getAssets();
 
-        try {
-            InputStream inputStream = assetManager.open("consejos.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                advicesList.add(line);
-            }
-
-            inputStream.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return advicesList;
-    }
 
     // Método para mostrar el próximo consejo
     private void showNextAdvice() {
@@ -114,6 +94,7 @@ public class Fragment_s3 extends Fragment {
             String textoIngresado = textBox.getText().toString();
             // Guardamos el consejo en la lista local (assets es solo de lectura)
             advices.add(textoIngresado);
+            consejosManager.addAdvise(textoIngresado);
             // Cierra el popup
             alertDialog.dismiss();
         });
