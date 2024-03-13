@@ -108,7 +108,6 @@ public class Fragment_s1 extends Fragment {
         String balanceString = Estimaciones.getBalance(balance);
         text.setText(balanceString);
         if (balance >= 0) {
-            String strBalance = String.format("%.02f", balance);
             title.setText("Has ahorrado " + String.format("%.02f", balance) + "€");
             text.setText(balanceString);
         } else {
