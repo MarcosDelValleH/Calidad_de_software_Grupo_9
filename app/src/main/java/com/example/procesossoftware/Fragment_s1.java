@@ -71,7 +71,6 @@ public class Fragment_s1 extends Fragment {
         dia = r.lastDay;
 
         // Mostramos el numero de cigarros que llevamos
-        //textViewFragment.setText(getString(R.string.cigarros_fumados, semana[r.lastDay]));
         textViewFragment.setText("  Cigarros fumados   \n \n " + semana[r.lastDay]+"\n");
         cont.setText("  Días sin fumar   \n \n"+r.numDias + "\n");
 
@@ -92,7 +91,7 @@ public class Fragment_s1 extends Fragment {
         });
 
         if(flag){
-            CreatePopUp(inflater,view);
+            CreatePopUp(inflater);
         }
 
         setMessage(view, r);
@@ -120,7 +119,7 @@ public class Fragment_s1 extends Fragment {
     }
 
 
-    private void CreatePopUp(LayoutInflater inflater, View view) {
+    private void CreatePopUp(LayoutInflater inflater) {
         View popUpView = inflater.inflate(R.layout.fragment_pop_up, null);
         TextView textView = popUpView.findViewById(R.id.randomAdvice);
 

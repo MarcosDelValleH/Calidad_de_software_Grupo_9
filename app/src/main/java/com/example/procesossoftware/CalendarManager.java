@@ -3,7 +3,7 @@ package com.example.procesossoftware;
 import java.util.Calendar;
 
 public class CalendarManager {
-    public CalendarManager(){}
+    public CalendarManager(){} //default creator. Can be changed
     public Boolean updateRegistro(Registro r){
         Boolean flag = false;
         Calendar calendar = Calendar.getInstance();

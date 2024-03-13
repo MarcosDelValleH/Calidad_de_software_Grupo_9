@@ -108,7 +108,6 @@ public class statisticsManager extends Fragment {
 
         BarDataSet dataSet = new BarDataSet(entries1, "Cigarros fumados");
         dataSet.setColor(Color.BLUE);
-        //dataSet.setCircleColor(Color.RED);
         BarData lineData = new BarData(dataSet);
 
         barChart.setData(lineData);

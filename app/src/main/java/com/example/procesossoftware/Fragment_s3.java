@@ -82,7 +82,7 @@ public class Fragment_s3 extends Fragment {
 
     // Método para mostrar el próximo consejo
     private void showNextAdvice() {
-        if (advices != null && advices.size() > 0) {
+        if (advices != null && !advices.isEmpty()) {
             int currentAdviceIndex;
             do{
                 currentAdviceIndex = new Random().nextInt(advices.size());

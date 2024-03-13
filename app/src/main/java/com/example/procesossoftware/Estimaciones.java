@@ -2,6 +2,7 @@ package com.example.procesossoftware;
 
 public class Estimaciones {
     // Supongamos que el costo promedio de un cigarro es de 0.25 euros
+    public Estimaciones(){} // constructor por defecto, se puede modificar
     private static final double COSTO_CIGARRO = 0.25;
     public static double ahorroSemanal(Registro registro){
         // Calcula la cantidad total de cigarros fumados en la última semana

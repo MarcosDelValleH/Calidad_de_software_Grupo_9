@@ -40,7 +40,6 @@ public class Fragment_s2 extends Fragment {
         graficManager = new statisticsManager(view_general,view, r);
         graficManager.setAhorro();
         graficManager.setGrafica();
-        //((ViewGroup)view_general).addView(view);
 
         return view_general;
     }
