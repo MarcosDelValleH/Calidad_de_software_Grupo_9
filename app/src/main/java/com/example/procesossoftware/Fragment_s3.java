@@ -40,7 +40,7 @@ public class Fragment_s3 extends Fragment {
         textViewFragment = view.findViewById(R.id.textViewFragment);
         buttonChangeAdvice = view.findViewById(R.id.buttonC);
         buttonAddAdvice = view.findViewById(R.id.buttonAdd);
-        consejosManager = new ConsejosManager(getContext());
+        consejosManager = new ConsejosManager(getContext(), this.getActivity());
 
 
         // Cargar los consejos desde el archivo de texto en assets
@@ -94,7 +94,7 @@ public class Fragment_s3 extends Fragment {
             String textoIngresado = textBox.getText().toString();
             // Guardamos el consejo en la lista local (assets es solo de lectura)
             advices.add(textoIngresado);
-            consejosManager.addAdvise(textoIngresado);
+            consejosManager.addAdvise(textoIngresado, this.getActivity());
             // Cierra el popup
             alertDialog.dismiss();
         });

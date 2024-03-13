@@ -55,7 +55,7 @@ public class Fragment_s1 extends Fragment {
         cont = view.findViewById(R.id.textView);
         preferencesManager = new PreferencesManager(getContext());
         calendarManager = new CalendarManager();
-        consejosManager = new ConsejosManager(getContext());
+        consejosManager = new ConsejosManager(getContext(),this.getActivity());
         //recuperamos la información de cigarros
         r = preferencesManager.getReg();
         if(r==null){ //no se ha creado todavia
@@ -124,8 +124,7 @@ public class Fragment_s1 extends Fragment {
         TextView textView = popUpView.findViewById(R.id.randomAdvice);
 
         // Leer consejos desde el archivo de texto
-        consejosManager.loadAdvices();
-        List<String> consejosList = consejosManager.getAdvices();
+        ArrayList<String> consejosList = (ArrayList<String>) consejosManager.getAdvices();
 
         // Obtener un consejo aleatorio
         if (!consejosList.isEmpty()) {
