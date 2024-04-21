@@ -10,6 +10,7 @@ public class Registro implements Serializable {
     int lastWeek;
     int lastDay;
     int numDias;
+    int semanaInstalado; // Dice en que semana se ha instalado
     public Registro() {
         Calendar calendar = Calendar.getInstance();
         int numeroSemana = calendar.get(Calendar.WEEK_OF_YEAR);
@@ -25,6 +26,7 @@ public class Registro implements Serializable {
         this.lastDay=diaSemana;
         this.lastWeek=numeroSemana;
         this.dailyCigaretteAverage = 8;  // default
+        this.semanaInstalado = numeroSemana;
     }
     public void SetDay(int i){
         this.lastDay = i;
@@ -53,5 +55,26 @@ public class Registro implements Serializable {
 
     public void setDailyCigaretteAverage(int dailyCigaretteAverage) {
         this.dailyCigaretteAverage = dailyCigaretteAverage;
+    }
+    public int[] getLast7(){
+        int[] semana = new int[8];
+        for(int i = 0; i<8;i++) semana[i] = 0;
+        int cont = 7;
+        Integer[] s2 = reg.get(reg.size()-1);
+        for(int i = this.lastDay;i>0;i--){
+            semana[cont] = s2[i];
+            cont--;
+        }
+        if (cont>0){
+            Integer[] s3 = reg.get(reg.size()-1);
+            int j = 7;
+            while(cont>0){
+                semana[cont] = s3[j];
+                j++;
+                cont--;
+            }
+        }
+
+        return semana;
     }
 }
