@@ -66,11 +66,11 @@ public class Registro implements Serializable {
             cont--;
         }
         if (cont>0){
-            Integer[] s3 = reg.get(reg.size()-1);
+            Integer[] s3 = reg.get(reg.size()-2);
             int j = 7;
             while(cont>0){
                 semana[cont] = s3[j];
-                j++;
+                j--;
                 cont--;
             }
         }
