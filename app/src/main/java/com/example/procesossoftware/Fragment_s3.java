@@ -28,6 +28,10 @@ public class Fragment_s3 extends Fragment {
     private ArrayList<String> advices;
     private Button buttonChangeAdvice;
     private Button buttonAddAdvice;
+
+    private Button buttonViewObjectives;
+
+    private PrevisionesManager objectives;
     private Set<Integer> shownAdvices = new HashSet<>(); // Conjunto de índices de consejos mostrados
     private ConsejosManager consejosManager;
 
@@ -40,8 +44,10 @@ public class Fragment_s3 extends Fragment {
         textViewFragment = view.findViewById(R.id.textViewFragment);
         buttonChangeAdvice = view.findViewById(R.id.buttonC);
         buttonAddAdvice = view.findViewById(R.id.buttonAdd);
+        buttonViewObjectives = view.findViewById(R.id.buttonObj);
         consejosManager = new ConsejosManager(getContext(), this.getActivity());
-
+        PreferencesManager preferencesManager = new PreferencesManager(getContext());
+        objectives = new PrevisionesManager(preferencesManager.getReg());
 
         // Cargar los consejos desde el archivo de texto en assets
         advices = (ArrayList<String>) consejosManager.getAdvices();
@@ -52,6 +58,7 @@ public class Fragment_s3 extends Fragment {
         // Configurar un listener para el botón de cambio de consejo
         buttonChangeAdvice.setOnClickListener(v -> showNextAdvice());
         buttonAddAdvice.setOnClickListener(v -> addAdvice());
+        buttonViewObjectives.setOnClickListener(v -> showObjectives());
 
         return view;
     }
@@ -98,6 +105,41 @@ public class Fragment_s3 extends Fragment {
             // Cierra el popup
             alertDialog.dismiss();
         });
+
+        // Configura un clic para el botón "Cancelar"
+        btnCancelar.setOnClickListener(v -> alertDialog.dismiss());
+
+        // Crea un objeto AlertDialog con el diseño inflado
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(popupView);
+
+        // Muestra el popup
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+    private void showObjectives(){
+        View popupView = getLayoutInflater().inflate(R.layout.objpopup, null);
+
+        // Encuentra las vistas dentro del diseño inflado
+        TextView textday = popupView.findViewById(R.id.tbDay);
+        TextView textweek = popupView.findViewById(R.id.tbWeek);
+        TextView textmonth = popupView.findViewById(R.id.tbMonth);
+        Button btnCancelar = popupView.findViewById(R.id.cerrar);
+        int p = objectives.getPerfil();
+        if(p==2){
+            textday.setText("Usa la aplicación unos días antes de obtener un objetivo");
+            textmonth.setText("");
+            textweek.setText("");
+        }
+        else {
+            int[] o = objectives.getPrevision(p);
+            String[] m = objectives.toString(o);
+            textday.setText(m[0]);
+            textweek.setText(m[1]);
+            textmonth.setText(m[2]);
+        }
+        // Configura un clic para el botón "Aceptar"
+
 
         // Configura un clic para el botón "Cancelar"
         btnCancelar.setOnClickListener(v -> alertDialog.dismiss());

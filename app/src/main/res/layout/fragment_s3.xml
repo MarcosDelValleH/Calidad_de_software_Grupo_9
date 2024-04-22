@@ -11,11 +11,11 @@
         android:id="@+id/textViewFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/consejo_aqui"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="@string/consejo_aqui"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <Space
         android:layout_width="match_parent"
@@ -34,4 +34,11 @@
         android:layout_height="wrap_content"
         android:text="Añadir consejo"
         android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/buttonObj"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:text="Ver objetivos"
+        android:textColor="@color/white"/>
 </LinearLayout>

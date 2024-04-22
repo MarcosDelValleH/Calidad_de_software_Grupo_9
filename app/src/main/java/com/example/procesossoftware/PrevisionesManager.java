@@ -6,7 +6,7 @@ public class PrevisionesManager {
         this.r = r;
     }
     public int getPerfil(){ // Devuelve el perfil del usuario fumón
-        if(r.lastWeek-r.semanaInstalado<2) return 3; // Perfil acaba de empezar a usar la aplicación
+        if(r.lastWeek-r.semanaInstalado<2) return 2; // Perfil acaba de empezar a usar la aplicación
         int[] last7 = r.getLast7();
         int cont = 0;
         for(int i = 0; i<8;i++){
