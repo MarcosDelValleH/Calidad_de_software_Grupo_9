@@ -8,7 +8,7 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         glue = {"com.example.procesossoftware"},
-        features = "src/androidTest/resources"
+        features = "resources/features"
 )
 public class TestRunner {
 

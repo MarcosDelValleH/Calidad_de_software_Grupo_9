@@ -6,6 +6,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+
 
 @RunWith(AndroidJUnit4.class)
 public class PrevisionesManagerTest {
@@ -38,6 +41,7 @@ public class PrevisionesManagerTest {
     }
 
     @Test
+    @Given("Un fumador casual")
     public void testGetPerfil_SporadicSmoker() {
         // Create a Registro object for testing
         Integer[] semana = new Integer[]{4, 0, 1, 0, 1, 0, 1, 0}; // Sample data for one week as a sporadic smoker
@@ -51,6 +55,7 @@ public class PrevisionesManagerTest {
     }
 
     @Test
+    @Given("Un fumador diario")
     public void testGetPerfil_DailySmoker() {
         // Create a Registro object for testing
         Integer[] semana = new Integer[]{4, 5, 1, 2, 1, 3, 1, 4}; // Sample data for one week as a daily smoker
@@ -66,6 +71,7 @@ public class PrevisionesManagerTest {
 
     // Tests for getPrevision method
     @Test
+    @Then("Espero una prevision media")
     public void testGetPrevision_SporadicSmoker() {
         // Create a Registro object for testing
         Integer[] semana = new Integer[]{4, 0, 1, 0, 1, 0, 1, 0}; // Sample data for one week as a sporadic smoker
@@ -82,6 +88,7 @@ public class PrevisionesManagerTest {
     }
 
     @Test
+    @Then("Espero una prevision mala")
     public void testGetPrevision_DailySmoker() {
         // Create a Registro object for testing
         Integer[] semana = new Integer[]{4, 5, 1, 2, 1, 3, 1, 4}; // Sample data for one week as a daily smoker

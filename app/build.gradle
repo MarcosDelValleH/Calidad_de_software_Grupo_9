@@ -43,8 +43,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.google.code.gson:gson:2.8.8'
-    testImplementation 'io.cucumber:cucumber-java'
-    testImplementation 'io.cucumber:cucumber-junit'
+    testImplementation 'io.cucumber:cucumber-java:7.17.0'
+    testImplementation 'io.cucumber:cucumber-junit:7.17.0'
     androidTestImplementation 'io.cucumber:cucumber-android:7.14.0'
-    androidTestImplementation 'io.cucumber:cucumber-junit'
+    androidTestImplementation 'io.cucumber:cucumber-junit:7.17.0'
 }
