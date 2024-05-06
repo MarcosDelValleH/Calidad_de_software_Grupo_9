@@ -44,6 +44,14 @@ public class Fragment_s1Test {
         // Deregistra el recurso inactivo después de cada prueba
         IdlingRegistry.getInstance().unregister(countingIdlingResource);
     }
+    @Test
+    public void testButtonClick() {
+        // Verifica que el botón esté presente y sea visible en la pantalla
+        onView(withId(R.id.button)).check(matches(isDisplayed()));
+
+        // Realiza clic en el botón
+        onView(withId(R.id.button)).perform(click());
+    }
 
     @Test
     public void testTextoCigarrosFumados() {
